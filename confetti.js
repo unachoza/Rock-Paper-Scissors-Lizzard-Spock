@@ -1,6 +1,6 @@
 // Confetti.js - downloaded from https://www.cssscript.com/confetti-falling-animation/
 
-var confetti = {
+let confetti = {
   maxCount: 150, //set max confetti count
   speed: 2, //set the particle animation speed
   frameInterval: 15, //the confetti animation frame interval in milliseconds
@@ -17,15 +17,16 @@ var confetti = {
   isRunning: null, //call and returns true or false depending on whether the animation is running
 };
 
-confetti.start = startConfetti;
-confetti.stop = stopConfetti;
-confetti.toggle = toggleConfetti;
-confetti.pause = pauseConfetti;
-confetti.resume = resumeConfetti;
-confetti.togglePause = toggleConfettiPause;
-confetti.isPaused = isConfettiPaused;
-confetti.remove = removeConfetti;
-confetti.isRunning = isConfettiRunning;
+// let startConfetti = confetti.start;
+// confetti.start = startConfetti;
+// confetti.stop = stopConfetti;
+// confetti.toggle = toggleConfetti;
+// confetti.pause = pauseConfetti;
+// confetti.resume = resumeConfetti;
+// confetti.togglePause = toggleConfettiPause;
+// confetti.isPaused = isConfettiPaused;
+// confetti.remove = removeConfetti;
+// confetti.isRunning = isConfettiRunning;
 var supportsAnimationFrame =
   window.requestAnimationFrame ||
   window.webkitRequestAnimationFrame ||
@@ -102,7 +103,7 @@ function runAnimation() {
   }
 }
 
-function startConfetti(timeout, min, max) {
+const startConfetti = (timeout, min, max) => {
   var width = window.innerWidth;
   var height = window.innerHeight;
   window.requestAnimationFrame = (function () {
@@ -156,17 +157,17 @@ function startConfetti(timeout, min, max) {
   if (timeout) {
     window.setTimeout(stopConfetti, timeout);
   }
-}
+};
 
-function stopConfetti() {
+const stopConfetti = () => {
   streamingConfetti = false;
-}
+};
 
-function removeConfetti() {
+const removeConfetti = () => {
   stop();
   pause = false;
   particles = [];
-}
+};
 
 function toggleConfetti() {
   if (streamingConfetti) stopConfetti();
