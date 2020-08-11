@@ -1,9 +1,9 @@
 import { startConfetti, stopConfetti, removeConfetti } from './confetti.js';
 
-const playerScoreEl = document.getElementById('playerScore');
-const playerChoiceEl = document.getElementById('playerChoice');
-const computerScoreEl = document.getElementById('computerScore');
-const computerChoiceEl = document.getElementById('computerChoice');
+const playerScoreElement = document.getElementById('playerScore');
+const playerChoiceElement = document.getElementById('playerChoice');
+const computerScoreElement = document.getElementById('computerScore');
+const computerChoiceElement = document.getElementById('computerChoice');
 
 const playerRock = document.getElementById('playerRock');
 const playerPaper = document.getElementById('playerPaper');
@@ -20,13 +20,6 @@ const computerSpock = document.getElementById('computerSpock');
 const allGameIcons = document.querySelectorAll('.far');
 const resultText = document.getElementById('resultText');
 
-const choices = {
-  rock: { name: 'Rock', defeats: ['scissors', 'lizard'], title: 'rock', element: computerRock },
-  paper: { name: 'Paper', defeats: ['rock', 'spock'], title: 'paper', element: computerPaper },
-  scissors: { name: 'Scissors', defeats: ['paper', 'lizard'], title: 'scissors', element: computerScissors },
-  lizard: { name: 'Lizard', defeats: ['paper', 'spock'], title: 'lizard', element: computerLizard },
-  spock: { name: 'Spock', defeats: ['scissors', 'rock'], title: 'spock', element: computerSpock },
-};
 const gameOptions = {
   0: 'rock',
   1: 'paper',
@@ -34,6 +27,14 @@ const gameOptions = {
   3: 'lizard',
   4: 'spock',
 };
+const choices = {
+  rock: { name: 'Rock', defeats: ['scissors', 'lizard'], title: 'rock', element: computerRock },
+  paper: { name: 'Paper', defeats: ['rock', 'spock'], title: 'paper', element: computerPaper },
+  scissors: { name: 'Scissors', defeats: ['paper', 'lizard'], title: 'scissors', element: computerScissors },
+  lizard: { name: 'Lizard', defeats: ['paper', 'spock'], title: 'lizard', element: computerLizard },
+  spock: { name: 'Spock', defeats: ['scissors', 'rock'], title: 'spock', element: computerSpock },
+};
+
 let playerScoreNumber = 0;
 let computerScoreNumber = 0;
 let computerPick;
@@ -49,40 +50,35 @@ const resetSelected = () => {
 const resetAll = () => {
   playerScoreNumber = 0;
   computerScoreNumber = 0;
-  playerScoreEl.textContent = playerScoreNumber;
-  computerScoreEl.textContent = computerScoreNumber;
-  playerChoiceEl.textContent = '';
-  computerChoiceEl.textContent = '';
+  playerScoreElement.textContent = playerScoreNumber;
+  computerScoreElement.textContent = computerScoreNumber;
+  playerChoiceElement.textContent = '';
+  computerChoiceElement.textContent = '';
   resultText.textContent = '';
   resetSelected();
 };
 window.resetAll = resetAll;
 
-const computerRandomChoice = () => {
-  const computerChoiceNumber = Math.floor(Math.random() * Math.floor(5));
-  return (computerPick = choices[gameOptions[computerChoiceNumber]]);
-};
+const computerRandomChoice = () => (computerPick = choices[gameOptions[Math.floor(Math.random() * Math.floor(5))]]);
 
 const displayComputerChoice = () => {
   computerPick.element.classList.add('selected');
-  computerChoiceEl.textContent = ` -- ${computerPick.name}`;
+  computerChoiceElement.textContent = ` -- ${computerPick.name}`;
 };
 
-// Check result, increase scores, update resultText
 const updateScore = (playerChoice) => {
-  if (playerChoice === computerPick.title) {
-    resultText.textContent = "It's a tie.";
-  } else {
+  if (playerChoice === computerPick.title) resultText.textContent = "It's a tie.";
+  else {
     const choice = choices[playerChoice];
     if (choice.defeats.indexOf(computerPick.title) > -1) {
       startConfetti();
       resultText.textContent = 'You Won!';
       playerScoreNumber++;
-      playerScoreEl.textContent = playerScoreNumber;
+      playerScoreElement.textContent = playerScoreNumber;
     } else {
       resultText.textContent = 'You Lost!';
       computerScoreNumber++;
-      computerScoreEl.textContent = computerScoreNumber;
+      computerScoreElement.textContent = computerScoreNumber;
     }
   }
 };
@@ -98,9 +94,8 @@ const checkResult = (playerChoice) => {
 const select = (playerChoice) => {
   checkResult(playerChoice);
   choices[playerChoice].element.classList.add('selected');
-  playerChoiceEl.textContent = `--- ${choices[playerChoice].title}`;
+  playerChoiceElement.textContent = ` -- ${choices[playerChoice].name}`;
 };
 window.select = select;
 
-// On startup, set initial values
 resetAll();
