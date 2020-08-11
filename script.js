@@ -27,7 +27,7 @@ const choices = {
   lizard: { name: 'Lizard', defeats: ['paper', 'spock'], title: 'lizard', element: computerLizard },
   spock: { name: 'Spock', defeats: ['scissors', 'rock'], title: 'spock', element: computerSpock },
 };
-const computerOptions = {
+const gameOptions = {
   0: 'rock',
   1: 'paper',
   2: 'scissors',
@@ -36,19 +36,17 @@ const computerOptions = {
 };
 let playerScoreNumber = 0;
 let computerScoreNumber = 0;
-let computerPick = {};
+let computerPick;
 
 // Reset all 'selected' icons, remove confetti
-function resetSelected() {
-  allGameIcons.forEach((icon) => {
-    icon.classList.remove('selected');
-  });
+const resetSelected = () => {
+  allGameIcons.forEach((icon) => icon.classList.remove('selected'));
   stopConfetti();
   removeConfetti();
-}
+};
 
 // Reset score & playerChoice/computerChoice
-function resetAll() {
+const resetAll = () => {
   playerScoreNumber = 0;
   computerScoreNumber = 0;
   playerScoreEl.textContent = playerScoreNumber;
@@ -57,26 +55,21 @@ function resetAll() {
   computerChoiceEl.textContent = '';
   resultText.textContent = '';
   resetSelected();
-}
+};
 window.resetAll = resetAll;
 
-// Random computer choice
 const computerRandomChoice = () => {
   const computerChoiceNumber = Math.floor(Math.random() * Math.floor(5));
-  console.log('random ran');
-  return (computerPick = choices[computerOptions[computerChoiceNumber]]);
+  return (computerPick = choices[gameOptions[computerChoiceNumber]]);
 };
 
-// Add 'selected' styling & computerChoice
 const displayComputerChoice = () => {
   computerPick.element.classList.add('selected');
   computerChoiceEl.textContent = ` -- ${computerPick.name}`;
 };
 
 // Check result, increase scores, update resultText
-function updateScore(playerChoice) {
-  console.log('the computer choose', computerPick.name);
-  console.log('the player choose', playerChoice);
+const updateScore = (playerChoice) => {
   if (playerChoice === computerPick.title) {
     resultText.textContent = "It's a tie.";
   } else {
@@ -92,45 +85,21 @@ function updateScore(playerChoice) {
       computerScoreEl.textContent = computerScoreNumber;
     }
   }
-}
+};
 
-// Call functions to process turn
-function checkResult(playerChoice) {
+const checkResult = (playerChoice) => {
   resetSelected();
   computerRandomChoice();
   displayComputerChoice();
   updateScore(playerChoice);
-}
+};
 
 // Passing player selection value and styling icons
-function select(playerChoice) {
+const select = (playerChoice) => {
   checkResult(playerChoice);
-  // Add 'selected' styling & playerChoice
-  switch (playerChoice) {
-    case 'rock':
-      playerRock.classList.add('selected');
-      playerChoiceEl.textContent = ' --- Rock';
-      break;
-    case 'paper':
-      playerPaper.classList.add('selected');
-      playerChoiceEl.textContent = ' --- Paper';
-      break;
-    case 'scissors':
-      playerScissors.classList.add('selected');
-      playerChoiceEl.textContent = ' --- Scissors';
-      break;
-    case 'lizard':
-      playerLizard.classList.add('selected');
-      playerChoiceEl.textContent = ' --- Lizard';
-      break;
-    case 'spock':
-      playerSpock.classList.add('selected');
-      playerChoiceEl.textContent = ' --- Spock';
-      break;
-    default:
-      break;
-  }
-}
+  choices[playerChoice].element.classList.add('selected');
+  playerChoiceEl.textContent = `--- ${choices[playerChoice].title}`;
+};
 window.select = select;
 
 // On startup, set initial values
